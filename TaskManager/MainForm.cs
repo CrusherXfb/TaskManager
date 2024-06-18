@@ -26,7 +26,6 @@ namespace TaskManager
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			 
-			listViewProcesses.Items.Clear();
 			LoadProcesses();
 
 
@@ -49,15 +48,65 @@ namespace TaskManager
 
 		void LoadProcesses()
 		{
+
+			//listViewProcesses.Items.Clear();
+
+			//Process[] processes = Process.GetProcesses();
+			//for (int i = 0; i < processes.Length; i++)
+			//{
+			//	ListViewItem item = new ListViewItem();
+			//	item.Text = processes[i].Id.ToString();
+			//	item.SubItems.Add(processes[i].ProcessName.ToString());
+			//	listViewProcesses.Items.Add(item);
+			//}
+			FindProcesses();
+			statusStrip1.Items[0].Text = ($"Количество процессов: {listViewProcesses.Items.Count}");
+
+
+		}
+
+		void FindProcesses()
+		{
 			Process[] processes = Process.GetProcesses();
 			for (int i = 0; i < processes.Length; i++)
 			{
-				ListViewItem item = new ListViewItem();
-				item.Text = processes[i].Id.ToString();
-				item.SubItems.Add(processes[i].ProcessName.ToString());
-				listViewProcesses.Items.Add(item);
+				bool found = false;
+				for (int j = 0; j < listViewProcesses.Items.Count; j++)
+				{
+					ListViewItem lVprocess = listViewProcesses.Items[j];
+					if (processes[i].Id == Convert.ToInt32(lVprocess.SubItems[0].Text))
+					{
+						found = true;
+					}
+				}
+				if (found == false)
+				{
+					ListViewItem item = new ListViewItem();
+					item.Text = processes[i].Id.ToString();
+					item.SubItems.Add(processes[i].ProcessName.ToString());
+					listViewProcesses.Items.Add(item);
+				}
 			}
-			statusStrip1.Items[0].Text = ($"Количество процессов: {listViewProcesses.Items.Count}");
+
+			for (int i = 0; i < listViewProcesses.Items.Count; i++)
+			{
+				bool found = false;
+				for (int j = 0; j < processes.Length; j++)
+				{
+					ListViewItem lVprocess = listViewProcesses.Items[j];
+					if (processes[i].Id == Convert.ToInt32(lVprocess.SubItems[0].Text))
+					{
+						found = true;
+					}
+				}
+				if (found == false)
+				{
+					listViewProcesses.Items.RemoveAt(i);
+				}
+			}
+
+
+
 		}
 		
 	}

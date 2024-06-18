@@ -1,4 +1,5 @@
-﻿#define SINGLE_PROCESS
+﻿#define DICTIONARY_PROCESSES
+//#define SINGLE_PROCESS
 //#define ALL_PROCESSES
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,22 @@ namespace Process
 			Console.WriteLine($"\n////////////////\nCPU usage total: {cpuUsageTotal}");
 
 #endif
+#if DICTIONARY_PROCESSES
+
+			System.Diagnostics.Process[] processes = System.Diagnostics.Process.GetProcesses();
+			Dictionary<int, System.Diagnostics.Process> dictionary_processes = new Dictionary<int, System.Diagnostics.Process>();
+			for (int i = 0; i < processes.Length; i++)
+			{
+				dictionary_processes.Add(processes[i].Id, processes[i]);
+			}
+			foreach (var process in dictionary_processes)
+			{
+				Console.WriteLine($"{process.Key}\t{process.Value.ProcessName}");
+			}
+
+#endif
+
+
 
 
 		}

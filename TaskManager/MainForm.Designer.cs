@@ -32,7 +32,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageProcesses = new System.Windows.Forms.TabPage();
-			this.listViewProcesses = new System.Windows.Forms.ListView();
+			this.listViewProcesses = new ListViewSmooth();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -122,7 +122,8 @@
         private System.Windows.Forms.TabPage tabPageProcesses;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ListView listViewProcesses;
+        private ListViewSmooth listViewProcesses;
+        //private System.Windows.Forms.ListView listViewProcesses;
 		private System.Windows.Forms.Timer timer1;
 	}
 }
