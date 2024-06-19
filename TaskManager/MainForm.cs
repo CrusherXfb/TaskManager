@@ -21,7 +21,7 @@ namespace TaskManager
 			SetColumns();
 			statusStrip1.Items.Add("");
 			LoadProcesses();
-			SortListView();
+			//SortListView();
 
 		}
 
@@ -30,7 +30,7 @@ namespace TaskManager
 			AddNewProcesses();
 			RemoveOldProcesses();
 			this.d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
-			SortListView();
+			//SortListView();
 			statusStrip1.Items[0].Text = ($"Количество процессов: {listViewProcesses.Items.Count}");
 
 		}
@@ -172,13 +172,13 @@ namespace TaskManager
 			listViewProcesses.ListViewItemSorter = new ListViewItemComparer();
 		}
 
-		//class ListViewItemComparer : IComparer
-		//{
-		//	public int Compare(object x, object y)
-		//	{
-		//		return int.Parse(((ListViewItem)x).Text).CompareTo(int.Parse(((ListViewItem)y).Text));
-		//	}
-		//}
+		class ListViewItemComparer : IComparer
+		{
+			public int Compare(object x, object y)
+			{
+				return int.Parse(((ListViewItem)x).Text).CompareTo(int.Parse(((ListViewItem)y).Text));
+			}
+		}
 
 		//int FindProcessIndexById(int id)
 		//{
