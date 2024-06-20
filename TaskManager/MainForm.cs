@@ -14,6 +14,8 @@ namespace TaskManager
 {
     public partial class MainForm : Form
     {
+		readonly int ramFactor = 1024;
+		readonly string suffix = "kB";
 		Dictionary<int, Process> d_processes;
         public MainForm()
         {
@@ -31,6 +33,8 @@ namespace TaskManager
 			AddNewProcesses();
 
 			RemoveOldProcesses();
+
+			UpdateExistingProcesses();
 			//SortListView();
 			statusStrip1.Items[0].Text = ($"Количество процессов: {listViewProcesses.Items.Count}");
 
@@ -40,7 +44,20 @@ namespace TaskManager
 		{
 			listViewProcesses.Columns.Add("PID");
 			listViewProcesses.Columns.Add("Name");
-			
+			listViewProcesses.Columns.Add("Working set");
+			listViewProcesses.Columns.Add("Peak working set");
+
+
+
+			foreach (ColumnHeader column in listViewProcesses.Columns)
+			{
+				if (column.Width < 100)
+				{
+					column.Width = 100;
+				}
+			}
+			//listViewProcesses.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
+
 		}
 
 		void LoadProcesses()
@@ -60,10 +77,11 @@ namespace TaskManager
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			foreach(var i in d_processes)
 			{
-				ListViewItem item = new ListViewItem();
-				item.Text = i.Key.ToString();
-				item.SubItems.Add(i.Value.ProcessName.ToString());
-				listViewProcesses.Items.Add(item);
+				//ListViewItem item = new ListViewItem();
+				//item.Text = i.Key.ToString();
+				//item.SubItems.Add(i.Value.ProcessName.ToString());
+				//listViewProcesses.Items.Add(item);
+				AddProcessToListView(i.Value);
 			}
 
 
@@ -132,6 +150,8 @@ namespace TaskManager
 			ListViewItem item = new ListViewItem();
 			item.Text = process.Id.ToString();
 			item.SubItems.Add(process.ProcessName);
+			item.SubItems.Add($"{process.WorkingSet64 / ramFactor} {suffix}");
+			item.SubItems.Add($"{process.PeakWorkingSet64 / ramFactor} {suffix}");
 			listViewProcesses.Items.Add(item);
 		}
 
@@ -172,14 +192,39 @@ namespace TaskManager
 
 		void SortListView()
 		{
-			listViewProcesses.ListViewItemSorter = new ListViewItemComparer();
+			listViewProcesses.ListViewItemSorter = new ListViewItemComparer(1);
+		}
+
+		private void ColumnClick(object o, ColumnClickEventArgs e)
+		{
+			listViewProcesses.ListViewItemSorter = new ListViewItemComparer(e.Column);
 		}
 
 		class ListViewItemComparer : IComparer
 		{
+			private int col;
+
+			public ListViewItemComparer(int column)
+			{
+				col = column;
+			}
+
 			public int Compare(object x, object y)
 			{
-				return int.Parse(((ListViewItem)x).Text).CompareTo(int.Parse(((ListViewItem)y).Text));
+				if (col == 0)
+					return int.Parse(((ListViewItem)x).SubItems[col].Text).CompareTo(int.Parse(((ListViewItem)y).SubItems[col].Text));
+				else
+					return ((ListViewItem)x).SubItems[col].Text.CompareTo(((ListViewItem)y).SubItems[col].Text);
+			}
+		}
+		
+		void UpdateExistingProcesses()
+		{
+			for (int i = 0; i < listViewProcesses.Items.Count; i++)
+			{
+				int id = Convert.ToInt32(listViewProcesses.Items[i].Text);
+				listViewProcesses.Items[i].SubItems[2].Text = $"{d_processes[id].WorkingSet64/ramFactor} {suffix}";
+				listViewProcesses.Items[i].SubItems[3].Text = $"{d_processes[id].PeakWorkingSet64/ramFactor} {suffix}";
 			}
 		}
 
