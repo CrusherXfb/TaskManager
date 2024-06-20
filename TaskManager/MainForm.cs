@@ -17,19 +17,20 @@ namespace TaskManager
 		Dictionary<int, Process> d_processes;
         public MainForm()
         {
-            InitializeComponent();
+			
+			InitializeComponent();
 			SetColumns();
 			statusStrip1.Items.Add("");
 			LoadProcesses();
-			//SortListView();
+			SortListView();
 
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
 			AddNewProcesses();
+
 			RemoveOldProcesses();
-			this.d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			//SortListView();
 			statusStrip1.Items[0].Text = ($"Количество процессов: {listViewProcesses.Items.Count}");
 
@@ -136,6 +137,8 @@ namespace TaskManager
 
 		void RemoveOldProcesses()
 		{
+			this.d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+
 			/*
 			//Dictionary<int, Process> d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			//while (true)
