@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TaskManager
 {
@@ -25,7 +26,7 @@ namespace TaskManager
 			statusStrip1.Items.Add("");
 			LoadProcesses();
 			SortListView();
-
+			
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -36,6 +37,7 @@ namespace TaskManager
 
 			UpdateExistingProcesses();
 			//SortListView();
+
 			statusStrip1.Items[0].Text = ($"Количество процессов: {listViewProcesses.Items.Count}");
 
 		}
@@ -222,10 +224,39 @@ namespace TaskManager
 		{
 			for (int i = 0; i < listViewProcesses.Items.Count; i++)
 			{
-				int id = Convert.ToInt32(listViewProcesses.Items[i].Text);
-				listViewProcesses.Items[i].SubItems[2].Text = $"{d_processes[id].WorkingSet64/ramFactor} {suffix}";
-				listViewProcesses.Items[i].SubItems[3].Text = $"{d_processes[id].PeakWorkingSet64/ramFactor} {suffix}";
+				try
+				{
+					int id = Convert.ToInt32(listViewProcesses.Items[i].Text);
+					listViewProcesses.Items[i].SubItems[2].Text = $"{d_processes[id].WorkingSet64 / ramFactor} {suffix}";
+					listViewProcesses.Items[i].SubItems[3].Text = $"{d_processes[id].PeakWorkingSet64 / ramFactor} {suffix}";
+				}
+				catch { }
 			}
+			
+			
+		}
+
+		private void runToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			CommandLine cmd = new CommandLine();
+			cmd.ShowDialog();
+		}
+
+		private void listViewProcesses_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				if (listViewProcesses.FocusedItem != null)
+				{
+					contextMenuStripProcess.Show(Cursor.Position);
+				}
+			}
+		}
+
+		private void ToolStripMenuItem_Click_KILL(object sender, EventArgs e)
+		{
+			Process p = Process.GetProcessById(Convert.ToInt32(listViewProcesses.SelectedItems[0].Text));
+			p.Kill();
 		}
 
 		//int FindProcessIndexById(int id)

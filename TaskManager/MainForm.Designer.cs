@@ -37,12 +37,15 @@
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.listViewProcesses = new TaskManager.ListViewSmooth();
 			this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripProcess = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.снятьЗадачуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.listViewProcesses = new TaskManager.ListViewSmooth();
 			this.tabControl1.SuspendLayout();
 			this.tabPageProcesses.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.contextMenuStripProcess.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -110,6 +113,33 @@
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
+			// runToolStripMenuItem
+			// 
+			this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+			this.runToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+			this.runToolStripMenuItem.Text = "Run";
+			this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			// 
+			// contextMenuStripProcess
+			// 
+			this.contextMenuStripProcess.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.снятьЗадачуToolStripMenuItem});
+			this.contextMenuStripProcess.Name = "contextMenuStripProcess";
+			this.contextMenuStripProcess.Size = new System.Drawing.Size(181, 48);
+			// 
+			// снятьЗадачуToolStripMenuItem
+			// 
+			this.снятьЗадачуToolStripMenuItem.Name = "снятьЗадачуToolStripMenuItem";
+			this.снятьЗадачуToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.снятьЗадачуToolStripMenuItem.Text = "Снять задачу";
+			this.снятьЗадачуToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click_KILL);
+			// 
 			// listViewProcesses
 			// 
 			this.listViewProcesses.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -123,18 +153,7 @@
 			this.listViewProcesses.UseCompatibleStateImageBehavior = false;
 			this.listViewProcesses.View = System.Windows.Forms.View.Details;
 			this.listViewProcesses.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ColumnClick);
-			// 
-			// runToolStripMenuItem
-			// 
-			this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-			this.runToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.runToolStripMenuItem.Text = "Run";
-			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.exitToolStripMenuItem.Text = "Exit";
+			this.listViewProcesses.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewProcesses_MouseClick);
 			// 
 			// MainForm
 			// 
@@ -152,6 +171,7 @@
 			this.tabPageProcesses.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.contextMenuStripProcess.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -170,6 +190,8 @@
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripProcess;
+		private System.Windows.Forms.ToolStripMenuItem снятьЗадачуToolStripMenuItem;
 	}
 }
 
