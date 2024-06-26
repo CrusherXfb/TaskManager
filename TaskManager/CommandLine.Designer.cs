@@ -39,8 +39,7 @@
 			// 
 			// button_OK
 			// 
-			this.button_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.button_OK.Location = new System.Drawing.Point(103, 132);
+			this.button_OK.Location = new System.Drawing.Point(52, 52);
 			this.button_OK.Name = "button_OK";
 			this.button_OK.Size = new System.Drawing.Size(75, 23);
 			this.button_OK.TabIndex = 0;
@@ -51,7 +50,7 @@
 			// button_Cancel
 			// 
 			this.button_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button_Cancel.Location = new System.Drawing.Point(184, 132);
+			this.button_Cancel.Location = new System.Drawing.Point(133, 52);
 			this.button_Cancel.Name = "button_Cancel";
 			this.button_Cancel.Size = new System.Drawing.Size(75, 23);
 			this.button_Cancel.TabIndex = 1;
@@ -60,7 +59,7 @@
 			// 
 			// button_Browse
 			// 
-			this.button_Browse.Location = new System.Drawing.Point(265, 131);
+			this.button_Browse.Location = new System.Drawing.Point(214, 52);
 			this.button_Browse.Name = "button_Browse";
 			this.button_Browse.Size = new System.Drawing.Size(75, 23);
 			this.button_Browse.TabIndex = 2;
@@ -70,11 +69,13 @@
 			// 
 			// comboBoxFilename
 			// 
+			this.comboBoxFilename.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
 			this.comboBoxFilename.FormattingEnabled = true;
-			this.comboBoxFilename.Location = new System.Drawing.Point(106, 79);
+			this.comboBoxFilename.Location = new System.Drawing.Point(52, 12);
 			this.comboBoxFilename.Name = "comboBoxFilename";
 			this.comboBoxFilename.Size = new System.Drawing.Size(234, 21);
-			this.comboBoxFilename.TabIndex = 3;
+			this.comboBoxFilename.TabIndex = 0;
+			this.comboBoxFilename.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBoxFilename_KeyDown);
 			// 
 			// pictureBox1
 			// 
@@ -91,7 +92,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(343, 167);
+			this.ClientSize = new System.Drawing.Size(299, 95);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.comboBoxFilename);
 			this.Controls.Add(this.button_Browse);
@@ -99,8 +100,11 @@
 			this.Controls.Add(this.button_OK);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "CommandLine";
 			this.Text = "Run";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CommandLine_FormClosing);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CommandLine_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 

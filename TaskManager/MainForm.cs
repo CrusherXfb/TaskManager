@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.IO;
 
 namespace TaskManager
 {
@@ -18,15 +19,14 @@ namespace TaskManager
 		readonly int ramFactor = 1024;
 		readonly string suffix = "kB";
 		Dictionary<int, Process> d_processes;
-        public MainForm()
-        {
-			
+		CommandLine cmd = new CommandLine();
+		public MainForm()
+        {			
 			InitializeComponent();
 			SetColumns();
 			statusStrip1.Items.Add("");
 			LoadProcesses();
 			SortListView();
-			
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -238,25 +238,37 @@ namespace TaskManager
 
 		private void runToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			CommandLine cmd = new CommandLine();
 			cmd.ShowDialog();
 		}
 
-		private void listViewProcesses_MouseClick(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Right)
-			{
-				if (listViewProcesses.FocusedItem != null)
-				{
-					contextMenuStripProcess.Show(Cursor.Position);
-				}
-			}
-		}
+		//private void listViewProcesses_MouseClick(object sender, MouseEventArgs e)
+		//{
+		//	if (e.Button == MouseButtons.Right)
+		//	{
+		//		if (listViewProcesses.FocusedItem != null)
+		//		{
+		//			contextMenuStripProcess.Show(Cursor.Position);
+		//		}
+		//	}
+		//}
 
 		private void ToolStripMenuItem_Click_KILL(object sender, EventArgs e)
 		{
-			Process p = Process.GetProcessById(Convert.ToInt32(listViewProcesses.SelectedItems[0].Text));
-			p.Kill();
+			//MessageBox.Show(this, listViewProcesses.SelectedItems[0].Text);
+			d_processes[Convert.ToInt32(listViewProcesses.SelectedItems[0].Text)].Kill();
+			//Process p = Process.GetProcessById(Convert.ToInt32(listViewProcesses.SelectedItems[0].Text));
+			//p.Kill();
+		}
+
+		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			StreamWriter sw = new StreamWriter("ProgramList.txt");
+
+			for (int i = 0; i < cmd.ComboBoxFileName.Items.Count; i++)
+			{
+				sw.WriteLine(cmd.ComboBoxFileName.Items[i]);
+			}
+			sw.Close();
 		}
 
 		//int FindProcessIndexById(int id)

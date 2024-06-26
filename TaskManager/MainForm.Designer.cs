@@ -131,17 +131,18 @@
 			this.contextMenuStripProcess.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.снятьЗадачуToolStripMenuItem});
 			this.contextMenuStripProcess.Name = "contextMenuStripProcess";
-			this.contextMenuStripProcess.Size = new System.Drawing.Size(181, 48);
+			this.contextMenuStripProcess.Size = new System.Drawing.Size(104, 26);
 			// 
 			// снятьЗадачуToolStripMenuItem
 			// 
 			this.снятьЗадачуToolStripMenuItem.Name = "снятьЗадачуToolStripMenuItem";
-			this.снятьЗадачуToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.снятьЗадачуToolStripMenuItem.Text = "Снять задачу";
+			this.снятьЗадачуToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+			this.снятьЗадачуToolStripMenuItem.Text = "Close";
 			this.снятьЗадачуToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click_KILL);
 			// 
 			// listViewProcesses
 			// 
+			this.listViewProcesses.ContextMenuStrip = this.contextMenuStripProcess;
 			this.listViewProcesses.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listViewProcesses.FullRowSelect = true;
 			this.listViewProcesses.HideSelection = false;
@@ -153,7 +154,7 @@
 			this.listViewProcesses.UseCompatibleStateImageBehavior = false;
 			this.listViewProcesses.View = System.Windows.Forms.View.Details;
 			this.listViewProcesses.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ColumnClick);
-			this.listViewProcesses.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewProcesses_MouseClick);
+			//this.listViewProcesses.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listViewProcesses_MouseClick);
 			// 
 			// MainForm
 			// 
@@ -167,6 +168,7 @@
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.Text = "TaskManager";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPageProcesses.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
