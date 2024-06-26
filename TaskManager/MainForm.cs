@@ -11,6 +11,8 @@ using System.Diagnostics;
 using System.Collections;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.IO;
+using System.Globalization;
+using static TaskManager.ListViewItemComparer;
 
 namespace TaskManager
 {
@@ -20,6 +22,13 @@ namespace TaskManager
 		readonly string suffix = "kB";
 		Dictionary<int, Process> d_processes;
 		CommandLine cmd = new CommandLine();
+
+		enum ColumnName
+		{
+			PID,
+			Name
+		}
+
 		public MainForm()
         {			
 			InitializeComponent();
@@ -194,32 +203,73 @@ namespace TaskManager
 
 		void SortListView()
 		{
-			listViewProcesses.ListViewItemSorter = new ListViewItemComparer(1);
+			listViewProcesses.ListViewItemSorter = new ListViewItemComparer();
 		}
 
 		private void ColumnClick(object o, ColumnClickEventArgs e)
 		{
-			listViewProcesses.ListViewItemSorter = new ListViewItemComparer(e.Column);
+			//ListViewItemComparer sorter = new ListViewItemComparer(e.Column);
+			//listViewProcesses.ListViewItemSorter = new ListViewItemComparer();
+			ListViewItemComparer sorter = GetListViewSorter(e.Column);
+
+			listViewProcesses.ListViewItemSorter = sorter;
+			listViewProcesses.Sort();
 		}
 
-		class ListViewItemComparer : IComparer
+
+
+
+		private ListViewItemComparer GetListViewSorter(int columnIndex)
 		{
-			private int col;
-
-			public ListViewItemComparer(int column)
+			ListViewItemComparer sorter = (ListViewItemComparer)listViewProcesses.ListViewItemSorter;
+			if (sorter == null)
 			{
-				col = column;
+				sorter = new ListViewItemComparer();
 			}
 
-			public int Compare(object x, object y)
+			sorter.ColumnIndex = columnIndex;
+
+			//string columnName = listViewProcesses.Columns[columnIndex].Name;
+			switch (columnIndex)
 			{
-				if (col == 0)
-					return int.Parse(((ListViewItem)x).SubItems[col].Text).CompareTo(int.Parse(((ListViewItem)y).SubItems[col].Text));
-				else
-					return ((ListViewItem)x).SubItems[col].Text.CompareTo(((ListViewItem)y).SubItems[col].Text);
+				case 0:
+					sorter.ColumnType = ColumnDataType.Int;
+					break;
+				default:
+					sorter.ColumnType = ColumnDataType.String;
+					break;
 			}
+
+			if (sorter.SortDirection == SortOrder.Ascending)
+			{
+				sorter.SortDirection = SortOrder.Descending;
+			}
+			else
+			{
+				sorter.SortDirection = SortOrder.Ascending;
+			}
+
+			return sorter;
 		}
-		
+
+		//class ListViewItemComparer : IComparer
+		//{
+		//	private int col;
+
+		//	public ListViewItemComparer(int column)
+		//	{
+		//		col = column;
+		//	}
+
+		//	public int Compare(object x, object y)
+		//	{
+		//		if (col == 0)
+		//			return int.Parse(((ListViewItem)x).SubItems[col].Text).CompareTo(int.Parse(((ListViewItem)y).SubItems[col].Text));
+		//		else
+		//			return ((ListViewItem)x).SubItems[col].Text.CompareTo(((ListViewItem)y).SubItems[col].Text);
+		//	}
+		//}
+
 		void UpdateExistingProcesses()
 		{
 			for (int i = 0; i < listViewProcesses.Items.Count; i++)
@@ -270,6 +320,9 @@ namespace TaskManager
 			}
 			sw.Close();
 		}
+
+		
+
 
 		//int FindProcessIndexById(int id)
 		//{

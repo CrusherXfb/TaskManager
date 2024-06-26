@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListComparer.cs" />
     <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="ListViewSmooth.cs">
       <SubType>Component</SubType>
