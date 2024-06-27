@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ListComparer.cs" />
+    <Compile Include="ListSortingClass.cs" />
     <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="ListViewSmooth.cs">
       <SubType>Component</SubType>

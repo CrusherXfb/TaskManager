@@ -35,7 +35,7 @@ namespace TaskManager
 			SetColumns();
 			statusStrip1.Items.Add("");
 			LoadProcesses();
-			SortListView();
+			//SortListView();
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -210,13 +210,41 @@ namespace TaskManager
 		{
 			//ListViewItemComparer sorter = new ListViewItemComparer(e.Column);
 			//listViewProcesses.ListViewItemSorter = new ListViewItemComparer();
-			ListViewItemComparer sorter = GetListViewSorter(e.Column);
 
-			listViewProcesses.ListViewItemSorter = sorter;
+			//ListViewItemComparer sorter = GetListViewSorter(e.Column);
+			//listViewProcesses.ListViewItemSorter = sorter;
+			//listViewProcesses.Sort();
+
+			listViewProcesses.ListViewItemSorter = GetListSorter(e.Column);
 			listViewProcesses.Sort();
 		}
 
-
+		ListSortingClass GetListSorter(int index)
+		{
+			ListSortingClass lsc = (ListSortingClass)listViewProcesses.ListViewItemSorter;
+			if (lsc == null)
+			{
+				lsc = new ListSortingClass();
+			}
+			lsc.Index = index;
+			string columnName = listViewProcesses.Columns[index].Text;
+			//MessageBox.Show(columnName);
+			switch (columnName)
+			{
+				case "PID":
+					lsc.Type = ListSortingClass.ValueType.Integer;
+					break;
+				case "Name":
+					lsc.Type = ListSortingClass.ValueType.String;
+					break;
+				case "Working set":
+				case "Peak working set":
+					lsc.Type = ListSortingClass.ValueType.Memory;
+					break;
+			}
+			lsc.direction = lsc.direction == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+			return lsc;
+		}
 
 
 		private ListViewItemComparer GetListViewSorter(int columnIndex)

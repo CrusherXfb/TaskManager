@@ -108,12 +108,12 @@ namespace TaskManager
 				case ColumnDataType.Int:
 					int xInt = int.Parse(lviX.SubItems[ColumnIndex].Text);
 					int yInt = int.Parse(lviY.SubItems[ColumnIndex].Text);
-					return xInt.CompareTo(yInt);
+					result = xInt.CompareTo(yInt);
 					break;
 				case ColumnDataType.Long:
 					long xLong = long.Parse(lviX.SubItems[ColumnIndex].Text);
 					long yLong = long.Parse(lviY.SubItems[ColumnIndex].Text);
-					return xLong.CompareTo(yLong);
+					result = xLong.CompareTo(yLong);
 					break;
 				default:
 
