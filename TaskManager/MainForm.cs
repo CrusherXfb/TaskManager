@@ -13,6 +13,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.IO;
 using System.Globalization;
 using static TaskManager.ListViewItemComparer;
+using System.Reflection;
 
 namespace TaskManager
 {
@@ -35,6 +36,7 @@ namespace TaskManager
 			SetColumns();
 			statusStrip1.Items.Add("");
 			LoadProcesses();
+			AllignColumns();
 			//SortListView();
 		}
 
@@ -349,6 +351,17 @@ namespace TaskManager
 			sw.Close();
 		}
 
+		void AllignColumns()
+		{
+			for (int i = 0; i < listViewProcesses.Columns.Count; i++)
+			{
+				int value;
+				if (Int32.TryParse(listViewProcesses.Items[0].SubItems[i].Text.Split(' ')[0], out value) == true)
+				{
+					listViewProcesses.Columns[i].TextAlign = HorizontalAlignment.Right;
+				}
+			}
+		}
 		
 
 
